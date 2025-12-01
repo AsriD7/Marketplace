@@ -175,7 +175,7 @@
                                 Lihat Pesanan Saya
                             </a>
                         @else
-                            <a href="" class="btn-outline-custom">
+                            <a href="{{ route('login') }}" class="btn-outline-custom">
                                 Masuk untuk Mulai Pesan
                             </a>
                         @endauth
@@ -372,10 +372,10 @@
                 </p>
 
                 @guest
-                    <a href="" class="btn-primary-custom">
+                    <a href="{{ route('register') }}" class="btn-primary-custom">
                         Daftar Sekarang
                     </a>
-                    <a href="" class="btn-outline-custom ms-2">
+                    <a href="{{ route('login') }}" class="btn-outline-custom ms-2">
                         Saya sudah punya akun
                     </a>
                 @else

@@ -23,9 +23,9 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [SesiController::class, 'login'])->name('login.post');
     Route::get('/register', [SesiController::class, 'showregister'])->name('register');
     Route::post('/register', [SesiController::class, 'register'])->name('register.post');
-Route::get('/cek', function () {
-    return view('pelanggan.cek');
-});
+    Route::get('/', function () {
+        return view('pelanggan.cek');
+    });
     
 });
 Route::post('/logout', [SesiController::class, 'logout'])->name('logout');
