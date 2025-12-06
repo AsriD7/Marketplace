@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     public function profile()
@@ -32,6 +33,26 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    // inside User class
+ 
+
+    public function store()
+    {
+        return $this->hasOne(Store::class);
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany(ProductRating::class);
+    }
+
+ 
+    public function cart()
+    {
+        return $this->hasOne(Cart::class);
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.

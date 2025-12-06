@@ -41,85 +41,8 @@
 </head>
 <body>
     {{-- ===================== NAVBAR ===================== --}}
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top">
-        <div class="container">
-            {{-- Brand / Nama Aplikasi --}}
-            <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
-                <span class="me-1">🍽️</span>
-                <span>Kuliner Mandar</span>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                {{-- Menu kiri --}}
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        {{-- Ganti route ini kalau kamu punya route khusus landing --}}
-                        <a class="nav-link" href="{{ url('/') }}">Beranda</a>
-                    </li>
-
-                    <li class="nav-item">
-                        @if(Route::has('produk.index'))
-                            <a class="nav-link" href="{{ route('produk.index') }}">Kuliner</a>
-                        @endif
-                    </li>
-
-                    @auth
-                        {{-- Contoh menu tambahan untuk user login --}}
-                        @if(Route::has('pelanggan.pesanan.index'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('pelanggan.pesanan.index') }}">
-                                    Pesanan Saya
-                                </a>
-                            </li>
-                        @endif
-                    @endauth
-                </ul>
-
-                {{-- Menu kanan: Auth --}}
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    @guest
-                        @if (Route::has('login'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Login</a>
-                            </li>
-                        @endif
-
-                        @if (Route::has('register'))
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">Register</a>
-                            </li>
-                        @endif
-                    @else
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                {{ Auth::user()->name ?? 'Pengguna' }}
-                            </a>
-
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                {{-- Kalau ada halaman profil, bisa tambahkan di sini --}}
-                                {{-- <a class="dropdown-item" href="{{ route('profil.index') }}">Profil</a> --}}
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">
-                                        Logout
-                                    </button>
-                                </form>
-                            </div>
-                        </li>
-                    @endguest
-                </ul>
-            </div>
-        </div>
-    </nav>
-
+    
+    @include('layout.nav')
     {{-- ===================== KONTEN HALAMAN ===================== --}}
     <main>
         @yield('content')
