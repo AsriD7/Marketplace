@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        Schema::disableForeignKeyConstraints();
         Schema::create('product_ratings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
@@ -21,6 +22,7 @@ return new class extends Migration
             $table->boolean('is_hidden')->default(false); // admin moderation
             $table->timestamps();
         });
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

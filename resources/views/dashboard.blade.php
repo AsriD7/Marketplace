@@ -1,7 +1,4 @@
 @extends('layout.app')
-
-@section('title', 'Marketplace Kuliner Mandar - Pengguna')
-
 @section('content')
     {{-- =========================================
          LANDING PAGE PENGGUNA - KULINER MANDAR

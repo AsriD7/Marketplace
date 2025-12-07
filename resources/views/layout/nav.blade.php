@@ -68,7 +68,7 @@
                             {{-- Profil pelanggan --}}
                             @if(Auth::user()->role === 'pelanggan')
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('pelanggan.profil.index') }}">
+                                    <a class="dropdown-item" href="">
                                         Profil Saya
                                     </a>
                                 </li>
