@@ -11,8 +11,18 @@ class Order extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'order_number','user_id','store_id','alamat_kirim','subtotal','ongkir','total',
-        'status','payment_status','admin_validated_by','admin_validated_at','notes'
+        'order_number',
+        'user_id',
+        'store_id',
+        'alamat_kirim',
+        'subtotal',
+        'ongkir',
+        'total',
+        'status',
+        'payment_status',
+        'admin_validated_by',
+        'admin_validated_at',
+        'notes'
     ];
 
     protected $casts = [
@@ -43,7 +53,10 @@ class Order extends Model
 
     public function adminValidator()
     {
-        return $this->belongsTo(User::class,'admin_validated_by');
+        return $this->belongsTo(User::class, 'admin_validated_by');
     }
-
+    public function productRatings()
+    {
+        return $this->hasMany(\App\Models\ProductRating::class);
+    }
 }

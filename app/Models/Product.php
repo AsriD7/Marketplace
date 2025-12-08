@@ -11,7 +11,15 @@ class Product extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'store_id','category_id','nama','slug','deskripsi','harga','stok','gambar','is_active'
+        'store_id',
+        'category_id',
+        'nama',
+        'slug',
+        'deskripsi',
+        'harga',
+        'stok',
+        'gambar',
+        'is_active'
     ];
 
     protected $casts = [
@@ -40,4 +48,8 @@ class Product extends Model
         return $this->ratings()->avg('rating');
     }
 
+    public function getAverageRatingAttribute()
+    {
+        return round($this->ratings()->avg('rating'), 1) ?: 0;
+    }
 }

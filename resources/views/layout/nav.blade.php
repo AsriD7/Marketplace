@@ -17,9 +17,9 @@
 
             {{-- ================= MENU KIRI ================= --}}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                {{-- BERANDA --}}
-                <li class="nav-item">
+                @auth
+                    @if(Auth::user()->role === 'pelanggan')
+                        <li class="nav-item">
                     <a class="nav-link" href="{{ url('/') }}">Beranda</a>
                 </li>
 
@@ -27,6 +27,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="">Kuliner</a>
                 </li>
+                    @endif
+                @endauth
+
+                {{-- BERANDA --}}
+                
 
                 {{-- ================= MENU SAAT SUDAH LOGIN SEBAGAI PELANGGAN ================= --}}
                 @auth
