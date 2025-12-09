@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm sticky-top">
     <div class="container">
         {{-- Brand / Nama Aplikasi --}}
-        <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+        <a class="navbar-brand d-flex align-items-center" href="{{ url('/pelanggan') }}">
             <span class="me-1">🍽️</span>
             <span>Kuliner Mandar</span>
         </a>
@@ -16,25 +16,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
             {{-- ================= MENU KIRI ================= --}}
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {{-- <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 @auth
                     @if(Auth::user()->role === 'pelanggan')
                         <li class="nav-item">
                     <a class="nav-link" href="{{ url('/') }}">Beranda</a>
-                </li>
+                </li> --}}
 
                 {{-- KULINER --}}
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link" href="">Kuliner</a>
                 </li>
                     @endif
-                @endauth
+                @endauth --}}
 
                 {{-- BERANDA --}}
                 
 
                 {{-- ================= MENU SAAT SUDAH LOGIN SEBAGAI PELANGGAN ================= --}}
-                @auth
+                {{-- @auth
                     @if(Auth::user()->role === 'pelanggan')
                         <li class="nav-item">
                             <a class="nav-link" href="">
@@ -42,7 +42,7 @@
                             </a>
                         </li>
                     @endif
-                @endauth
+                @endauth --}}
 
             </ul>
 
@@ -71,12 +71,42 @@
                         <ul class="dropdown-menu dropdown-menu-end">
                             
                             {{-- Profil pelanggan --}}
-                            @if(Auth::user()->role === 'pelanggan')
-                                <li>
-                                    <a class="dropdown-item" href="">
+                            @auth
+                           
+                              <li>
+                                    <a class="dropdown-item" href="{{ route('profile.show') }}">
                                         Profil Saya
                                     </a>
                                 </li>
+                            
+                            @endauth
+                            
+                            @if(Auth::user()->role === 'pelanggan')
+                                
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('orders.index') }}">
+                                        Riwayat Pesanan
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('cart.index') }}">
+                                        Keranjang
+                                    </a>
+                                </li>
+                            @endif
+                            
+                            @if(Auth::user()->role === 'penjual')
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('penjual.store.index') }}">
+                                        Informasi Toko
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('penjual.produk.index') }}">
+                                        Produk
+                                    </a>
+                                </li>
+
                             @endif
 
                             {{-- Logout --}}

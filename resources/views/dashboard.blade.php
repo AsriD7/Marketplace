@@ -96,6 +96,27 @@
             color: #6b7280;
         }
 
+        .benefit-text {
+            color: #ffffff;
+            font-size: 0.85rem;
+        }
+        .highlight-box-title {
+            color: #0f172a; /* judul, bisa ganti */
+            font-weight: 700;
+        }
+
+        .highlight-box-text {
+            color: #1e293b; /* warna teks isi */
+        }
+
+
+        .highlight-box-text strong {
+            color: #0f766e; /* warna untuk label: Jajanan Tradisional, Olahan Laut */
+            font-weight: 700;
+        }
+
+
+
         .step-circle {
             width: 40px;
             height: 40px;
@@ -157,14 +178,14 @@
                         </form>
                     </div>
 
-                    <div class="mt-4 d-flex flex-wrap gap-2 text-muted-small">
-                        <span>✅ UMKM Lokal Mandar</span>
-                        <span>✅ Rekomendasi kategori makanan</span>
-                        <span>✅ Pesan cepat & mudah</span>
+                    <div class="mt-4 d-flex flex-wrap gap-2">
+                        <span class="benefit-text">✅ UMKM Lokal Mandar</span>
+                        <span class="benefit-text">✅ Rekomendasi kategori makanan</span>
+                        <span class="benefit-text">✅ Pesan cepat & mudah</span>
                     </div>
 
                     <div class="mt-4 d-flex flex-wrap gap-3">
-                        <a href="" class="btn-primary-custom">
+                        <a href="{{ route('catalog.index') }}" class="btn-primary-custom">
                             Lihat Semua Kuliner
                         </a>
                         @auth
@@ -185,13 +206,17 @@
                         <div class="mb-3">
                             <span class="badge-kategori">Highlight Kategori</span>
                         </div>
-                        <h5 class="mb-3">Kuliner Andalan Mandar</h5>
-                        <ul class="mb-0">
+                        <h5 class="mb-3 highlight-box-title">Kuliner Andalan Mandar</h5>
+
+
+                        <ul class="mb-0 highlight-box-text">
+
                             <li><strong>Jajanan Tradisional:</strong> jepa, kui-kui, onde-onde, dan lainnya.</li>
                             <li><strong>Olahan Laut:</strong> bau peapi, ikan bakar, pallumara.</li>
                             <li><strong>Kue Basah & Kering:</strong> barongko, bolu, dan lain-lain.</li>
                             <li><strong>Minuman Segar:</strong> es sarabba, minuman khas pesisir.</li>
                         </ul>
+
                         <p class="mt-3 text-muted-small mb-0">
                             Setiap produk dikelola oleh pelaku UMKM lokal Mandar dengan rasa otentik dan harga terjangkau.
                         </p>

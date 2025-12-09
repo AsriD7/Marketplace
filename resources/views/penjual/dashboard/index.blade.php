@@ -69,8 +69,7 @@
                     <th>Stok</th>
                     <th>Harga</th>
                     <th>Terjual ({{ $days }}d)</th>
-                    <th>Rating</th>
-                    <th>Ulasan</th>
+                  
                     <th></th>
                 </tr>
             </thead>
@@ -99,11 +98,7 @@
                         </td>
                         <td>Rp {{ number_format($p->harga,0,',','.') }}</td>
                         <td>{{ $p->total_sold ?? 0 }}</td>
-                        <td>
-                            <strong>{{ number_format($p->ratings_avg ?? 0,1) }}</strong>
-                            <div class="small text-muted">({{ $p->ratings_count ?? 0 }})</div>
-                        </td>
-                        <td>{{ $p->ratings_count ?? 0 }}</td>
+                        
                         <td>
                             <a href="{{ route('penjual.produk.edit', $p->id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
                         </td>

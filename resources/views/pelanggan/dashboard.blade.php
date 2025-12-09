@@ -111,6 +111,25 @@
             font-weight: 700;
             margin-bottom: 0.75rem;
         }
+        
+        .benefit-text {
+            color: #ffffff;
+            font-size: 0.85rem;
+        }
+        .highlight-box-title {
+            color: #0f172a; /* judul, bisa ganti */
+            font-weight: 700;
+        }
+
+        .highlight-box-text {
+            color: #1e293b; /* warna teks isi */
+        }
+
+
+        .highlight-box-text strong {
+            color: #0f766e; /* warna untuk label: Jajanan Tradisional, Olahan Laut */
+            font-weight: 700;
+        }
 
         .cta-section {
             padding: 2.5rem 1.5rem;
@@ -149,10 +168,12 @@
                     <div class="mt-4 search-wrapper">
                         <form action="" method="GET">
                             <div class="d-flex gap-2">
-                                <input type="text"
-                                       name="q"
-                                       class="search-input"
-                                       placeholder="Cari nama makanan, kategori, atau penjual...">
+                                <input
+                                    type="text"
+                                    name="q"
+                                    class="search-input"
+                                    placeholder="Cari nama makanan, kategori, atau penjual..."
+                                >
                                 <button type="submit" class="btn-primary-custom">
                                     Cari
                                 </button>
@@ -160,18 +181,19 @@
                         </form>
                     </div>
 
-                    <div class="mt-4 d-flex flex-wrap gap-2 text-muted-small">
-                        <span>✅ UMKM Lokal Mandar</span>
-                        <span>✅ Rekomendasi kategori makanan</span>
-                        <span>✅ Pesan cepat & mudah</span>
+                    <div class="mt-4 d-flex flex-wrap gap-2">
+                        <span class="benefit-text">✅ UMKM Lokal Mandar</span>
+                        <span class="benefit-text">✅ Rekomendasi kategori makanan</span>
+                        <span class="benefit-text">✅ Pesan cepat & mudah</span>
                     </div>
 
                     <div class="mt-4 d-flex flex-wrap gap-3">
-                        <a href="" class="btn-primary-custom">
+                        <a href="{{ route('catalog.index') }}" class="btn-primary-custom">
                             Lihat Semua Kuliner
                         </a>
+
                         @auth
-                            <a href="" class="btn-outline-custom">
+                            <a href="{{ route('orders.index') }}" class="btn-outline-custom">
                                 Lihat Pesanan Saya
                             </a>
                         @else
@@ -188,13 +210,18 @@
                         <div class="mb-3">
                             <span class="badge-kategori">Highlight Kategori</span>
                         </div>
-                        <h5 class="mb-3">Kuliner Andalan Mandar</h5>
-                        <ul class="mb-0">
+
+                        <h5 class="mb-3 highlight-box-title">Kuliner Andalan Mandar</h5>
+
+
+                        <ul class="mb-0 highlight-box-text">
+
                             <li><strong>Jajanan Tradisional:</strong> jepa, kui-kui, onde-onde, dan lainnya.</li>
                             <li><strong>Olahan Laut:</strong> bau peapi, ikan bakar, pallumara.</li>
                             <li><strong>Kue Basah & Kering:</strong> barongko, bolu, dan lain-lain.</li>
                             <li><strong>Minuman Segar:</strong> es sarabba, minuman khas pesisir.</li>
                         </ul>
+
                         <p class="mt-3 text-muted-small mb-0">
                             Setiap produk dikelola oleh pelaku UMKM lokal Mandar dengan rasa otentik dan harga terjangkau.
                         </p>
@@ -208,6 +235,7 @@
     <section class="py-5">
         <div class="container">
             <h2 class="section-title">Jelajahi Berdasarkan Kategori</h2>
+
             <p class="section-subtitle">
                 Pilih kategori kuliner sesuai selera kamu. Sistem bisa membantu merekomendasikan kategori makanan
                 yang cocok dengan preferensi pengguna.
@@ -261,61 +289,44 @@
     {{-- ===================== PRODUK REKOMENDASI ===================== --}}
     <section class="py-5 bg-light">
         <div class="container">
-            <h2 class="section-title">Rekomendasi Kuliner untuk Kamu</h2>
-            <p class="section-subtitle">
-                Daftar produk ini bisa diisi dari hasil rekomendasi sistem (misalnya pakai KNN / CBF) atau sekadar
-                “produk populer” sementara.
-            </p>
+            <div class="card p-3 mb-4">
+                <h5>Rekomendasi untuk Anda</h5>
 
-            @if(isset($produkRekomendasi) && $produkRekomendasi->count())
                 <div class="row g-3">
-                    @foreach($produkRekomendasi as $produk)
-                        <div class="col-12 col-md-4 col-lg-3">
-                            <div class="card-custom">
-                                {{-- Gambar produk, fallback jika null --}}
-                                @if($produk->gambar)
-                                    <img src="{{ asset('storage/' . $produk->gambar) }}"
-                                         alt="{{ $produk->nama }}"
-                                         class="card-produk-img">
-                                @else
-                                    <div class="card-produk-img d-flex align-items-center justify-content-center"
-                                         style="background-color: #f3f4f6;">
-                                        <span class="text-muted-small">Tidak ada gambar</span>
-                                    </div>
+                    @foreach ($recommended as $rp)
+                        <div class="col-md-3">
+                            <div class="card h-100">
+                                @if ($rp->gambar)
+                                    <img
+                                        src="{{ asset('storage/' . $rp->gambar) }}"
+                                        class="card-img-top"
+                                        style="height: 120px; object-fit: cover;"
+                                    >
                                 @endif
 
-                                <span class="badge-kategori">
-                                    {{ $produk->kategori->nama ?? 'Kuliner Mandar' }}
-                                </span>
+                                <div class="card-body p-2">
+                                    <h6 class="card-title mb-1" style="font-size: 0.95rem;">
+                                        {{ Str::limit($rp->nama, 50) }}
+                                    </h6>
 
-                                <h6 class="mt-1 mb-1">
-                                    {{ $produk->nama }}
-                                </h6>
+                                    <div class="small text-muted">
+                                        Rp {{ number_format($rp->harga, 0, ',', '.') }}
+                                    </div>
+                                </div>
 
-                                <p class="text-muted-small mb-1">
-                                    {{ Str::limit($produk->deskripsi, 60) }}
-                                </p>
-
-                                <p class="price-text mb-1">
-                                    Rp {{ number_format($produk->harga, 0, ',', '.') }}
-                                </p>
-
-                                <p class="text-muted-small mb-2">
-                                    Oleh: {{ $produk->penjual->nama_toko ?? $produk->penjual->name ?? 'UMKM Mandar' }}
-                                </p>
-
-                                <a href="{{ route('produk.show', $produk->id) }}" class="btn-primary-custom w-100 text-center">
-                                    Lihat Detail
-                                </a>
+                                <div class="card-footer p-2 text-center">
+                                    <a
+                                        href="{{ route('catalog.show', $rp->slug ?? $rp->id) }}"
+                                        class="btn btn-sm btn-outline-primary"
+                                    >
+                                        Lihat
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     @endforeach
                 </div>
-            @else
-                <p class="text-muted-small">
-                    Belum ada data rekomendasi kuliner untuk ditampilkan. Silakan tambahkan produk dulu di panel penjahit / UMKM.
-                </p>
-            @endif
+            </div>
         </div>
     </section>
 
@@ -323,6 +334,7 @@
     <section class="py-5">
         <div class="container">
             <h2 class="section-title">Cara Kerja Marketplace Kuliner Mandar</h2>
+
             <p class="section-subtitle">
                 Hanya dalam beberapa langkah, pengguna sudah bisa menemukan, memilih, dan memesan kuliner khas Mandar.
             </p>
@@ -367,6 +379,7 @@
         <div class="container">
             <div class="cta-section">
                 <h3 class="mb-2">Siap Menjelajahi Kuliner Mandar? 🌊</h3>
+
                 <p class="mb-4">
                     Dukung UMKM lokal dan nikmati cita rasa khas Mandar lewat satu platform marketplace yang terintegrasi.
                 </p>
@@ -375,11 +388,12 @@
                     <a href="{{ route('register') }}" class="btn-primary-custom">
                         Daftar Sekarang
                     </a>
+
                     <a href="{{ route('login') }}" class="btn-outline-custom ms-2">
                         Saya sudah punya akun
                     </a>
                 @else
-                    <a href="" class="btn-primary-custom">
+                    <a href="{{ route('catalog.index') }}" class="btn-primary-custom">
                         Mulai Cari Kuliner
                     </a>
                 @endguest

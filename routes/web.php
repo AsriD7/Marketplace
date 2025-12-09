@@ -10,6 +10,8 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CatalogController;
+use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+use App\Http\Controllers\ProfileController;
 
 // Seller
 use App\Http\Controllers\Seller\StoreController;
@@ -84,29 +86,37 @@ Route::post('/logout', [SesiController::class, 'logout'])->name('logout');
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
+Route::middleware(['auth', 'role:admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
 
-    // Dashboard Admin
-    Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+        // dashboard utama
+        Route::get('/', [AdminController::class, 'index'])
+            ->name('admin.dashboard');
 
-    // CRUD Admin Users
-    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-    Route::post('/admin', [AdminController::class, 'store'])->name('admin.store');
-    Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.update');
-    Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+        // manajemen user (pakai method store/update/destroy di AdminController)
+        Route::post('/users', [AdminController::class, 'store'])->name('users.store');
+        Route::put('/users/{id}', [AdminController::class, 'update'])->name('users.update');
+        Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
 
-    // Payment Validation
-    Route::prefix('admin')->name('admin.')->group(function () {
+        // pembayaran pending
+        Route::get('/payments/pending', [AdminPaymentController::class, 'pending'])
+            ->name('payments.pending');
+        Route::post('/payments/{payment}/validate', [AdminPaymentController::class, 'validatePayment'])
+            ->name('payments.validate');
+        Route::post('/payments/{payment}/reject', [AdminPaymentController::class, 'rejectPayment'])
+            ->name('payments.reject');
 
-        Route::get('payments/pending', [AdminPaymentController::class, 'pending'])->name('payments.pending');
-        Route::post('payments/{payment}/validate', [AdminPaymentController::class, 'validatePayment'])->name('payments.validate');
-        Route::post('payments/{payment}/reject', [AdminPaymentController::class, 'rejectPayment'])->name('payments.reject');
+        // rating & ulasan
+        Route::get('/ratings', [AdminRatingController::class, 'index'])
+            ->name('ratings.index');
+        Route::delete('/ratings/{rating}', [AdminRatingController::class, 'destroy'])
+            ->name('ratings.destroy');
 
-        // Rating Moderation
-        Route::get('ratings', [AdminRatingController::class, 'index'])->name('ratings.index');
-        Route::delete('ratings/{rating}', [AdminRatingController::class, 'destroy'])->name('ratings.destroy');
+        // Kategori
+        Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
     });
-});
 
 
 /*
@@ -117,7 +127,8 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 Route::middleware(['auth', 'role:pelanggan'])->group(function () {
 
-    Route::view('/pelanggan', 'pelanggan.dashboard')->name('pelanggan');
+    // Route::view('/pelanggan', 'pelanggan.dashboard')->name('pelanggan');
+    Route::get('/pelanggan', [CustomerDashboardController::class, 'index'])->name('pelanggan.dashboard');
 
     /*
     | CART
@@ -181,3 +192,10 @@ Route::middleware(['auth', 'role:penjual'])
         Route::get('orders/{order}', [SellerOrderController::class, 'show'])->name('orders.show');
         Route::post('orders/{order}/status', [SellerOrderController::class, 'updateStatus'])->name('orders.updateStatus');
     });
+
+
+Route::middleware('auth')->group(function () {
+    Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('profile', [ProfileController::class, 'update'])->name('profile.update');
+});

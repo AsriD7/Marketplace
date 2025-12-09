@@ -75,7 +75,7 @@
 
             <div>
                 <h5>Total: Rp {{ number_format($total,0,',','.') }}</h5>
-                {{-- <a href="{{ route('checkout.show') ?? url('/checkout') }}" class="btn btn-success">Checkout</a> --}}
+                <a href="{{ route('checkout.show') ?? url('/checkout') }}" class="btn btn-success">Checkout</a>
             </div>
         </div>
     @endif
